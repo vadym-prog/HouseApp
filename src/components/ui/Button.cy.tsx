@@ -4,6 +4,7 @@ describe("<Button /> Component", () => {
   it("renders with given text", () => {
     cy.mount(<Button>Тестова кнопка</Button>);
     cy.contains("Тестова кнопка").should("be.visible");
+    cy.screenshot("button-basic-render");
   });
 
   it("handles click events properly", () => {
@@ -21,6 +22,7 @@ describe("<Button /> Component", () => {
     );
     cy.get("button").should("have.class", "bg-black");
     cy.contains("Замовити").should("exist");
+    cy.screenshot("button-with-icon-variant");
   });
 
   it("respects disabled state", () => {
@@ -31,5 +33,6 @@ describe("<Button /> Component", () => {
       </Button>
     );
     cy.get("button").should("be.disabled");
+    cy.screenshot("button-disabled-state");
   });
 });

@@ -26,6 +26,9 @@ describe("Home Page E2E", () => {
     cy.get("#trust").should("be.visible");
     cy.contains("15 000+").should("be.visible");
     cy.contains("Гарантія 30 днів").should("exist");
+
+    // Take screenshot of fully rendered home page
+    cy.screenshot("e2e-home-page-full");
   });
 
   it("allows submitting the quick booking form", () => {
@@ -39,5 +42,8 @@ describe("Home Page E2E", () => {
     cy.get("#quick-status")
       .should("be.visible")
       .and("contain.text", "Диспетчер знайшов майстра поруч");
+
+    // Take screenshot of successful booking confirmation
+    cy.screenshot("e2e-booking-success");
   });
 });
