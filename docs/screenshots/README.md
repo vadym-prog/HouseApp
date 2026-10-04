@@ -1,32 +1,32 @@
 # Матеріали та скріншоти для звіту Лабораторної роботи №3
 
-Усі скріншоти та логи команд згенеровано автоматично під час виконання тестових сценаріїв та перевірок якості коду.
+Усі скріншоти тестів інтерфейсу та термінала згенеровано автоматично в єдиному темному преміум-стилі для безпосередньої вставки в документ звіту (`report_template.docx`).
 
 ---
 
-## 📸 1. Скріншоти Cypress (`docs/screenshots/cypress/`)
+## 💻 1. Графічні скріншоти термінала (`docs/screenshots/terminal/`)
 
-Ці зображення готові до прямої вставки в документ звіту (`report_template.docx`):
+Графічні PNG-знімки вікна консолі виконання команд проєкту з темною темою, кнопками вікна та кольоровою підсвіткою результатів:
 
-| Файл | Опис | Розділ звіту, куди вставляти |
+| Файл скріншота | Команда | Що зображено на скріншоті |
 | :--- | :--- | :--- |
-| **[`01-home-page-full.png`](file:///c:/Users/User/Downloads/HomeApp/docs/screenshots/cypress/01-home-page-full.png)** | Повний знімок головного екрана сервісу «МайстерДім» (Hero, інтерактивні курсори, віджет швидкого виклику, каталог популярних послуг, блок «Як це працює», метрики довіри) | *«Детальний опис ідеї з відповідними ілюстраціями»* / *«Результати тестування»* |
-| **[`02-booking-success.png`](file:///c:/Users/User/Downloads/HomeApp/docs/screenshots/cypress/02-booking-success.png)** | Підтвердження успішного заповнення форми швидкого виклику («Диспетчер знайшов майстра поруч. Дзвінок через 2 хв!») | *«Наскрізне E2E тестування»* |
-| **[`03-button-basic.png`](file:///c:/Users/User/Downloads/HomeApp/docs/screenshots/cypress/03-button-basic.png)** | Компонентний юніт-тест базової кнопки (`<Button />`) | *«Компонентне / юніт-тестування інтерфейсу»* |
-| **[`04-button-with-icon.png`](file:///c:/Users/User/Downloads/HomeApp/docs/screenshots/cypress/04-button-with-icon.png)** | Тестування кнопки з іконкою стрілки за дизайн-системою | *«Компонентне / юніт-тестування інтерфейсу»* |
-| **[`05-button-disabled.png`](file:///c:/Users/User/Downloads/HomeApp/docs/screenshots/cypress/05-button-disabled.png)** | Тестування стану `disabled` кнопки | *«Компонентне / юніт-тестування інтерфейсу»* |
-| **[`06-service-card.png`](file:///c:/Users/User/Downloads/HomeApp/docs/screenshots/cypress/06-service-card.png)** | Компонентне тестування картки послуги (`<ServiceCard />`) з ціною від 250 ₴ та фотографією | *«Компонентне / юніт-тестування інтерфейсу»* |
+| **[`terminal-lint.png`](file:///c:/Users/User/Downloads/HomeApp/docs/screenshots/terminal/terminal-lint.png)** | `npm run lint` | Успішне проходження перевірки ESLint без помилок та попереджень |
+| **[`terminal-format.png`](file:///c:/Users/User/Downloads/HomeApp/docs/screenshots/terminal/terminal-format.png)** | `npm run format:check` | Перевірка Prettier: `All matched files use Prettier code style!` |
+| **[`terminal-build.png`](file:///c:/Users/User/Downloads/HomeApp/docs/screenshots/terminal/terminal-build.png)** | `npm run build` | Успішна компіляція TypeScript та бандлінг Vite у `dist/` за 2.45s |
+| **[`terminal-component.png`](file:///c:/Users/User/Downloads/HomeApp/docs/screenshots/terminal/terminal-component.png)** | `npm run test:component` | Проходження 6 компонентних тестів (`Button.cy.tsx`, `ServiceCard.cy.tsx`) |
+| **[`terminal-e2e.png`](file:///c:/Users/User/Downloads/HomeApp/docs/screenshots/terminal/terminal-e2e.png)** | `npm run test:e2e` | Проходження 2 наскрізних E2E тестів головної сторінки (`home.cy.ts`) |
 
 ---
 
-## 💻 2. Логи успішного виконання термінала (`docs/screenshots/terminal/`)
+## 📸 2. Скріншоти Cypress UI (`docs/screenshots/cypress/`)
 
-Текстові звіти та логи виконання обов'язкових команд стеку:
+Знімки інтерфейсу додатку та окремих компонентів:
 
-| Файл логу | Команда | Статус |
+| Файл скріншота | Розмір | Опис для звіту |
 | :--- | :--- | :--- |
-| **[`01-lint-success.log`](file:///c:/Users/User/Downloads/HomeApp/docs/screenshots/terminal/01-lint-success.log)** | `npm run lint` | ✔ 0 помилок (ESLint) |
-| **[`02-format-check-success.log`](file:///c:/Users/User/Downloads/HomeApp/docs/screenshots/terminal/02-format-check-success.log)** | `npm run format:check` | ✔ Усі файли відповідають Prettier |
-| **[`03-build-success.log`](file:///c:/Users/User/Downloads/HomeApp/docs/screenshots/terminal/03-build-success.log)** | `npm run build` | ✔ Продакшн-білд успішний (Vite) |
-| **[`04-component-tests-success.log`](file:///c:/Users/User/Downloads/HomeApp/docs/screenshots/terminal/04-component-tests-success.log)** | `npm run test:component` | ✔ 6 passed (100% тестів компонентів) |
-| **[`05-e2e-tests-success.log`](file:///c:/Users/User/Downloads/HomeApp/docs/screenshots/terminal/05-e2e-tests-success.log)** | `npm run test:e2e` | ✔ 2 passed (100% наскрізних сценаріїв) |
+| **[`01-home-page-full.png`](file:///c:/Users/User/Downloads/HomeApp/docs/screenshots/cypress/01-home-page-full.png)** | 1000×2047 px | **Повний екран сервісу «МайстерДім»**: Hero з маркерами Figma, 18 майстрів онлайн, плаваючі курсори, віджет швидкого виклику, сітка послуг, 3-кроковий процес, метрики довіри. |
+| **[`02-booking-success.png`](file:///c:/Users/User/Downloads/HomeApp/docs/screenshots/cypress/02-booking-success.png)** | 1000×2095 px | **Успішне проходження E2E сценарію замовлення**: підтвердження від диспетчера («Диспетчер знайшов майстра поруч. Дзвінок через 2 хв!»). |
+| **[`03-button-basic.png`](file:///c:/Users/User/Downloads/HomeApp/docs/screenshots/cypress/03-button-basic.png)** | 500×500 px | Компонентний юніт-тест рендерингу кнопки (`<Button />`). |
+| **[`04-button-with-icon.png`](file:///c:/Users/User/Downloads/HomeApp/docs/screenshots/cypress/04-button-with-icon.png)** | 500×500 px | Тестування кнопки з іконкою стрілки за дизайн-системою. |
+| **[`05-button-disabled.png`](file:///c:/Users/User/Downloads/HomeApp/docs/screenshots/cypress/05-button-disabled.png)** | 500×500 px | Тестування стану `disabled` кнопки. |
+| **[`06-service-card.png`](file:///c:/Users/User/Downloads/HomeApp/docs/screenshots/cypress/06-service-card.png)** | 500×500 px | Компонентне тестування картки послуги (`<ServiceCard />`). |
