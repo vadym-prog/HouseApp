@@ -5,7 +5,7 @@
 
 ---
 
-## 🛠 Стек технологій
+## Стек технологій
 - **Фреймворк**: [React 19](https://react.dev/) + [Vite](https://vitejs.dev/)
 - **Мова**: [TypeScript](https://www.typescriptlang.org/)
 - **Стилізація**: [Tailwind CSS v3](https://tailwindcss.com/) з дизайн-токенами з `DESIGN.md` (Plus Jakarta Sans, JetBrains Mono, кольорова палітра atelier)
@@ -17,7 +17,7 @@
 
 ---
 
-## 📂 Структура проєкту (Feature-based Architecture)
+## Структура проєкту (Feature-based Architecture)
 
 ```
 HomeApp/
@@ -79,7 +79,7 @@ HomeApp/
 
 ---
 
-## 🚀 Команди запуску
+## Команди запуску
 
 ### 1. Встановлення залежностей:
 ```bash
