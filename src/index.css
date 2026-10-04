@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    background-color: #fbf8fc;
+    color: #1b1b1e;
+  }
+
+  body {
+    overscroll-behavior: none;
+  }
+}
+
+.figma-grid-canvas {
+  background-color: #fbf8fc;
+  background-image:
+    linear-gradient(to right, rgba(191, 199, 213, 0.25) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(191, 199, 213, 0.25) 1px, transparent 1px);
+  background-size: 24px 24px;
+}

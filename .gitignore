@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Cypress artifacts & cache
+cypress/videos
+cypress/screenshots
+.eslintcache
