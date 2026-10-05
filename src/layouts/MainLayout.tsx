@@ -8,9 +8,9 @@ export interface MainLayoutProps {
 
 export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (
-    <div className="min-h-screen flex flex-col bg-surface figma-grid-canvas">
+    <div>
       <Header />
-      <main className="flex-1 w-full pt-16">{children}</main>
+      {children}
       <Footer />
     </div>
   );
