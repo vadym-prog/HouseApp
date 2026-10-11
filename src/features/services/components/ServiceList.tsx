@@ -1,6 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import type { ServiceItem } from "../types";
 import { ServiceCard } from "./ServiceCard";
+import styles from "./ServiceList.module.css";
 
 export interface ServiceListProps {
   services: ServiceItem[];
@@ -9,26 +11,21 @@ export interface ServiceListProps {
 
 export const ServiceList: React.FC<ServiceListProps> = ({ services, onOrder }) => {
   return (
-    <section className="flex flex-col gap-4" id="katalog">
-      <div className="flex items-center justify-between">
+    <section className={styles.section} id="katalog">
+      <div className={styles.headerRow}>
         <div>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-black tracking-tight">
-            Популярні послуги
-          </h2>
-          <p className="text-xs sm:text-sm text-neutral-500 font-medium">
-            Фіксований тариф без прихованих платежів
-          </p>
+          <h2 className={styles.title}>Популярні послуги</h2>
+          <p className={styles.subtitle}>Фіксований тариф без прихованих платежів</p>
         </div>
-        <a
-          href="#katalog"
-          className="hidden sm:inline-flex text-xs font-bold text-neutral-700 hover:text-black items-center gap-1"
-        >
+        <Link to="/services" className={styles.catalogLink}>
           <span>Усі послуги</span>
-          <span className="material-symbols-outlined text-sm">arrow_forward</span>
-        </a>
+          <span className="material-symbols-outlined" style={{ fontSize: "16px" }}>
+            arrow_forward
+          </span>
+        </Link>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className={styles.grid}>
         {services.map((service) => (
           <ServiceCard key={service.id} service={service} onOrder={onOrder} />
         ))}
@@ -36,3 +33,5 @@ export const ServiceList: React.FC<ServiceListProps> = ({ services, onOrder }) =
     </section>
   );
 };
+
+export default ServiceList;

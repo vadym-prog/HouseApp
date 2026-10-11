@@ -1,17 +1,21 @@
 import React from "react";
+import { Outlet } from "react-router-dom";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
+import styles from "./MainLayout.module.css";
 
 export interface MainLayoutProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (
-    <div className="min-h-screen flex flex-col bg-surface figma-grid-canvas">
+    <div className={`${styles.layout} figma-grid-canvas`}>
       <Header />
-      <main className="flex-1 w-full pt-16">{children}</main>
+      <main className={styles.main}>{children ?? <Outlet />}</main>
       <Footer />
     </div>
   );
 };
+
+export default MainLayout;

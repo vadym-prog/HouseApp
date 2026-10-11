@@ -13,7 +13,10 @@ describe("Terminal Snapshots Generator", () => {
           { text: "> master-dim-app@0.1.0 lint", type: "dim" },
           { text: "> eslint src", type: "dim" },
           { text: "", type: "default" },
-          { text: "✔ No ESLint warnings or errors found across all src/**/*.{ts,tsx} files!", type: "success" },
+          {
+            text: "✔ No ESLint warnings or errors found across all src/**/*.{ts,tsx} files!",
+            type: "success",
+          },
           { text: "✨ Done in 1.42s.", type: "info" },
         ]}
       />
@@ -27,7 +30,7 @@ describe("Terminal Snapshots Generator", () => {
         command="npm run format:check"
         outputLines={[
           { text: "> master-dim-app@0.1.0 format:check", type: "dim" },
-          { text: "> prettier --check \"src/**/*.{ts,tsx,css}\"", type: "dim" },
+          { text: '> prettier --check "src/**/*.{ts,tsx,css}"', type: "dim" },
           { text: "", type: "default" },
           { text: "Checking formatting...", type: "info" },
           { text: "All matched files use Prettier code style!", type: "success" },
@@ -70,7 +73,10 @@ describe("Terminal Snapshots Generator", () => {
           { text: "> master-dim-app@0.1.0 test:component", type: "dim" },
           { text: "> cypress run --component", type: "dim" },
           { text: "", type: "default" },
-          { text: "==================================================================", type: "dim" },
+          {
+            text: "==================================================================",
+            type: "dim",
+          },
           { text: "  Running:  components/ui/Button.cy.tsx (1 of 2)", type: "info" },
           { text: "  <Button /> Component", type: "command" },
           { text: "    ✔ renders with given text (803ms)", type: "success" },
@@ -79,10 +85,16 @@ describe("Terminal Snapshots Generator", () => {
           { text: "    ✔ respects disabled state (546ms)", type: "success" },
           { text: "  4 passing (2s)", type: "success" },
           { text: "", type: "default" },
-          { text: "  Running:  features/services/components/ServiceCard.cy.tsx (2 of 2)", type: "info" },
+          {
+            text: "  Running:  features/services/components/ServiceCard.cy.tsx (2 of 2)",
+            type: "info",
+          },
           { text: "  <ServiceCard /> Component", type: "command" },
           { text: "    ✔ renders service details correctly (755ms)", type: "success" },
-          { text: "    ✔ calls onOrder callback when order button clicked (246ms)", type: "success" },
+          {
+            text: "    ✔ calls onOrder callback when order button clicked (246ms)",
+            type: "success",
+          },
           { text: "  2 passing (1s)", type: "success" },
           { text: "", type: "default" },
           { text: "✔ All specs passed! (6 passing, 0 failing) [00:03]", type: "success" },
@@ -100,10 +112,16 @@ describe("Terminal Snapshots Generator", () => {
           { text: "> master-dim-app@0.1.0 test:e2e", type: "dim" },
           { text: "> cypress run --e2e", type: "dim" },
           { text: "", type: "default" },
-          { text: "==================================================================", type: "dim" },
+          {
+            text: "==================================================================",
+            type: "dim",
+          },
           { text: "  Running:  home.cy.ts (1 of 1)", type: "info" },
           { text: "  Home Page E2E", type: "command" },
-          { text: "    ✔ successfully loads the home page and renders key elements (12.7s)", type: "success" },
+          {
+            text: "    ✔ successfully loads the home page and renders key elements (12.7s)",
+            type: "success",
+          },
           { text: "    ✔ allows submitting the quick booking form (3.6s)", type: "success" },
           { text: "  2 passing (17s)", type: "success" },
           { text: "", type: "default" },
