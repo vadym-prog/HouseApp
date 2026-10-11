@@ -28,7 +28,7 @@ export const Button: React.FC<ButtonProps> = ({
         ? styles.outline
         : variant === "ghost"
           ? styles.ghost
-          : `${styles.primary} bg-black`;
+          : styles.primary;
 
   return (
     <button

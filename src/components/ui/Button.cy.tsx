@@ -1,4 +1,5 @@
 import { Button } from "./Button";
+import styles from "./Button.module.css";
 
 describe("<Button /> Component", () => {
   it("renders with given text", () => {
@@ -20,7 +21,7 @@ describe("<Button /> Component", () => {
         Замовити
       </Button>
     );
-    cy.get("button").should("have.class", "bg-black");
+    cy.get("button").should("have.class", styles.primary);
     cy.contains("Замовити").should("exist");
     cy.screenshot("button-with-icon-variant");
   });
