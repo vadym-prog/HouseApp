@@ -1,0 +1,91 @@
+.footer {
+  width: 100%;
+  margin-top: auto;
+  background-color: var(--color-white);
+  border-top: 1px solid var(--border-default);
+}
+
+.inner {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.topRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2-5);
+}
+
+.logoImage {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  object-fit: contain;
+}
+
+.brandTitle {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-neutral-900);
+}
+
+.copyright {
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-400);
+  margin-left: var(--space-2);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-6);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-neutral-600);
+}
+
+.link {
+  transition: color var(--transition-fast);
+}
+
+.link:hover {
+  color: var(--color-neutral-950);
+}
+
+.phone {
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-900);
+}
+
+.bottomNote {
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  font-size: 0.75rem;
+  color: var(--color-neutral-400);
+}
+
+.badgeTag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--color-accent-emerald-dark);
+  font-weight: var(--font-weight-medium);
+}

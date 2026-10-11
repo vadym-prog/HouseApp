@@ -1,0 +1,190 @@
+.container {
+  padding: 1.5rem;
+  background-color: #030712;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.window {
+  width: 880px;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid #262626;
+  background-color: #0d1117;
+}
+
+.titleBar {
+  height: 2.5rem;
+  background-color: #161b22;
+  border-bottom: 1px solid #262626;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  user-select: none;
+}
+
+.trafficLights {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dotRed {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 9999px;
+  background-color: #ff5f56;
+  display: inline-block;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.dotYellow {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 9999px;
+  background-color: #ffbd2e;
+  display: inline-block;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.dotGreen {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 9999px;
+  background-color: #27c93f;
+  display: inline-block;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.titleText {
+  font-size: 0.75rem;
+  color: #a3a3a3;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-weight: 500;
+}
+
+.titleSpacer {
+  width: 3rem;
+}
+
+.terminalBody {
+  padding: 1.25rem;
+  font-size: 13px;
+  line-height: 1.625;
+  user-select: text;
+  background-color: #0d1117;
+  color: #e5e5e5;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.promptMetaLine {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid rgba(38, 38, 38, 0.8);
+  margin-bottom: 0.75rem;
+  font-size: 0.75rem;
+}
+
+.userHost {
+  color: #34d399;
+  font-weight: 700;
+}
+
+.pathSep {
+  color: #737373;
+}
+
+.cwd {
+  color: #60a5fa;
+  font-weight: 600;
+}
+
+.branch {
+  color: #c084fc;
+  font-weight: 500;
+}
+
+.commandLine {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #ffffff;
+  font-weight: 700;
+  padding-bottom: 0.5rem;
+}
+
+.promptSymbol {
+  color: #34d399;
+}
+
+.readyLine {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-top: 0.75rem;
+  font-size: 0.75rem;
+  opacity: 0.75;
+}
+
+.cursorBlock {
+  width: 0.5rem;
+  height: 1rem;
+  background-color: #a3a3a3;
+  display: inline-block;
+  animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.textCommand {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.textSuccess {
+  color: #34d399;
+  font-weight: 600;
+}
+
+.textInfo {
+  color: #22d3ee;
+}
+
+.textWarning {
+  color: #fbbf24;
+}
+
+.textDim {
+  color: #737373;
+}
+
+.textHighlight {
+  color: #c084fc;
+  font-weight: 600;
+}
+
+.textDefault {
+  color: #e5e5e5;
+}
+
+.outputLine {
+  white-space: pre-wrap;
+  font-family: inherit;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}

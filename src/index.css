@@ -1,0 +1,67 @@
+@import "./styles/variables.css";
+
+/* ==========================================================================
+   CSS Reset & Base Global Styles
+   Лабораторна робота №4: Чистий нативний CSS (без CSS-фреймворків)
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  color: var(--color-neutral-900);
+  background-color: var(--bg-app);
+  min-height: 100vh;
+  overscroll-behavior: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* Background canvas grid pattern */
+.figma-grid-canvas {
+  background-color: var(--bg-app);
+  background-image:
+    linear-gradient(to right, rgba(191, 199, 213, 0.22) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(191, 199, 213, 0.22) 1px, transparent 1px);
+  background-size: 24px 24px;
+}

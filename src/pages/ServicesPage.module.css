@@ -1,0 +1,206 @@
+.container {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-4);
+}
+
+.headerSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-8);
+}
+
+.title {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-neutral-900);
+  letter-spacing: -0.02em;
+}
+
+@media (min-width: 640px) {
+  .title {
+    font-size: var(--font-size-4xl);
+  }
+}
+
+.description {
+  font-size: var(--font-size-base);
+  color: var(--color-neutral-600);
+  max-width: 680px;
+}
+
+/* Filter controls bar */
+.controlsBar {
+  background-color: var(--color-white);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-default);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.searchSortRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+@media (min-width: 768px) {
+  .searchSortRow {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.searchCol {
+  flex: 1;
+}
+
+.sortCol {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .sortCol {
+    width: 240px;
+  }
+}
+
+.categoryTabs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.categoryBtn {
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  background-color: var(--color-neutral-100);
+  color: var(--color-neutral-700);
+  border: 1px solid transparent;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.categoryBtn:hover {
+  background-color: var(--color-neutral-200);
+}
+
+.categoryBtnActive {
+  background-color: var(--color-neutral-900);
+  color: var(--color-white);
+  box-shadow: var(--shadow-xs);
+}
+
+.resultsMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-500);
+  font-weight: var(--font-weight-medium);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: var(--space-5);
+  margin-bottom: var(--space-10);
+}
+
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.emptyState {
+  background-color: var(--color-white);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-default);
+  padding: var(--space-12) var(--space-4);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.emptyIcon {
+  font-size: 3rem;
+  color: var(--color-neutral-400);
+}
+
+.emptyTitle {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-800);
+}
+
+.emptyDesc {
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-500);
+}
+
+/* FAQ or Info strip */
+.infoSection {
+  background-color: var(--color-white);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-default);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: var(--space-6);
+}
+
+@media (min-width: 768px) {
+  .infoSection {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.infoCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.infoIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background-color: var(--color-neutral-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-neutral-900);
+}
+
+.infoTitle {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral-900);
+}
+
+.infoDesc {
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-600);
+  line-height: var(--line-height-relaxed);
+}
