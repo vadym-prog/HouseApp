@@ -66,7 +66,7 @@ export const ServicesPage: React.FC = () => {
   }, [selectedCategory, searchQuery, sortBy]);
 
   const handleOrder = (service: ServiceItem) => {
-    navigate(`/booking?service=${service.id}`);
+    navigate(`/booking/${service.id}`);
   };
 
   return (

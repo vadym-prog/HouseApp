@@ -31,19 +31,21 @@ describe("Home Page E2E", () => {
     cy.screenshot("e2e-home-page-full");
   });
 
-  it("allows submitting the quick booking form", () => {
+  it("redirects to booking page with phone and category on quick booking submit", () => {
     // Fill phone number in the quick booking widget
     cy.get('input[type="tel"]').first().type("501234567");
 
     // Click submit
     cy.get("#quick-submit-btn").click();
 
-    // Verify confirmation message appears
-    cy.get("#quick-status")
-      .should("be.visible")
-      .and("contain.text", "Диспетчер знайшов майстра поруч");
+    // Verify redirected to booking page with query params
+    cy.url().should("include", "/booking");
+    cy.url().should("include", "phone=501234567");
 
-    // Take screenshot of successful booking confirmation
-    cy.screenshot("e2e-booking-success");
+    // Verify phone input is prefilled on the booking page
+    cy.get('input[type="tel"]').should("have.value", "501234567");
+
+    // Take screenshot of successful booking transfer
+    cy.screenshot("e2e-booking-transfer-success");
   });
 });

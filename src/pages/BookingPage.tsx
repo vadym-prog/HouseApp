@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSearchParams, Link } from "react-router-dom";
+import { useParams, useSearchParams, useLocation, useNavigate, Link } from "react-router-dom";
 import { MainLayout } from "../layouts/MainLayout";
 import { MOCK_SERVICES } from "../features/services/data/mockServices";
 import { Button } from "../components/ui/Button";
@@ -19,14 +19,42 @@ const TIME_SLOTS = [
 ];
 
 export const BookingPage: React.FC = () => {
+  const { serviceId } = useParams<{ serviceId?: string }>();
   const [searchParams] = useSearchParams();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const locationState = location.state as {
+    phone?: string;
+    category?: string;
+    serviceId?: string;
+  } | null;
+
+  const resolvedInitialServiceId =
+    (serviceId && MOCK_SERVICES.some((s) => s.id === serviceId) && serviceId) ||
+    (searchParams.get("service") &&
+      MOCK_SERVICES.some((s) => s.id === searchParams.get("service")) &&
+      searchParams.get("service")) ||
+    (locationState?.serviceId &&
+      MOCK_SERVICES.some((s) => s.id === locationState.serviceId) &&
+      locationState.serviceId) ||
+    (() => {
+      const cat = searchParams.get("category") || locationState?.category;
+      if (cat && cat !== "all") {
+        const found = MOCK_SERVICES.find(
+          (s) => s.category === cat || (cat === "lawn" && s.category === "garden")
+        );
+        if (found) return found.id;
+      }
+      return MOCK_SERVICES[0].id;
+    })();
+
   const [overrideServiceId, setOverrideServiceId] = useState<string | null>(null);
-  const serviceFromUrl = searchParams.get("service");
-  const selectedServiceId =
-    overrideServiceId ??
-    (serviceFromUrl && MOCK_SERVICES.some((s) => s.id === serviceFromUrl)
-      ? serviceFromUrl
-      : MOCK_SERVICES[0].id);
+  const selectedServiceId = overrideServiceId ?? resolvedInitialServiceId;
+
+  const passedPhone = searchParams.get("phone") || locationState?.phone || "";
+  const [enteredPhone, setEnteredPhone] = useState<string | null>(null);
+  const phone = enteredPhone !== null ? enteredPhone : passedPhone;
 
   const [selectedDate, setSelectedDate] = useState(() => {
     const today = new Date();
@@ -36,7 +64,6 @@ export const BookingPage: React.FC = () => {
   const [address, setAddress] = useState("");
   const [workDescription, setWorkDescription] = useState("");
   const [clientName, setClientName] = useState("");
-  const [phone, setPhone] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [contactMethod, setContactMethod] = useState<"phone" | "telegram" | "viber">("phone");
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -47,6 +74,13 @@ export const BookingPage: React.FC = () => {
     value: s.id,
     label: `${s.title} (від ${s.price} ₴ / ${s.unit})`,
   }));
+
+  const handleServiceChange = (newServiceId: string) => {
+    setOverrideServiceId(newServiceId);
+    if (serviceId) {
+      navigate(`/booking/${newServiceId}`, { replace: true });
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,7 +97,7 @@ export const BookingPage: React.FC = () => {
     setOverrideServiceId(null);
     setAddress("");
     setWorkDescription("");
-    setPhone("");
+    setEnteredPhone("");
     setClientName("");
   };
 
@@ -151,7 +185,7 @@ export const BookingPage: React.FC = () => {
                   label="Категорія та вид робіт"
                   options={serviceOptions}
                   value={selectedServiceId}
-                  onChange={(e) => setOverrideServiceId(e.target.value)}
+                  onChange={(e) => handleServiceChange(e.target.value)}
                 />
               </div>
 
@@ -258,7 +292,7 @@ export const BookingPage: React.FC = () => {
                     <PhoneInput
                       value={phone}
                       onChange={(e) => {
-                        setPhone(e.target.value);
+                        setEnteredPhone(e.target.value);
                         if (phoneError) setPhoneError("");
                       }}
                       error={phoneError}

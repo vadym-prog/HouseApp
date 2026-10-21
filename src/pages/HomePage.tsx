@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { MainLayout } from "../layouts/MainLayout";
 import { QuickBookingWidget } from "../features/booking/components/QuickBookingWidget";
 import { ServiceList } from "../features/services/components/ServiceList";
@@ -8,12 +8,10 @@ import type { ServiceItem } from "../features/services/types";
 import styles from "./HomePage.module.css";
 
 export const HomePage: React.FC = () => {
-  const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
+  const navigate = useNavigate();
 
   const handleOrder = (service: ServiceItem) => {
-    setSelectedService(service);
-    const bookingEl = document.getElementById("quick-booking-section");
-    bookingEl?.scrollIntoView({ behavior: "smooth" });
+    navigate(`/booking/${service.id}`);
   };
 
   return (
@@ -88,12 +86,6 @@ export const HomePage: React.FC = () => {
               <p className={styles.heroSubtitle}>
                 Ремонт, сантехніка та догляд за ділянкою з гарантією 30 днів.
               </p>
-
-              {selectedService && (
-                <div className={styles.selectedServiceBanner}>
-                  Обрано послугу: {selectedService.title} (від {selectedService.price} ₴)
-                </div>
-              )}
 
               {/* Quick Booking Form */}
               <QuickBookingWidget />

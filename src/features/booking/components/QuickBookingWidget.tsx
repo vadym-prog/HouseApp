@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../../../components/ui/Button";
 import { PhoneInput } from "../../../components/ui/PhoneInput";
 import styles from "./QuickBookingWidget.module.css";
@@ -15,6 +16,7 @@ export interface QuickBookingWidgetProps {
 }
 
 export const QuickBookingWidget: React.FC<QuickBookingWidgetProps> = ({ onSuccess }) => {
+  const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -29,6 +31,12 @@ export const QuickBookingWidget: React.FC<QuickBookingWidgetProps> = ({ onSucces
     setError("");
     setSubmitted(true);
     onSuccess?.(phoneNumber, selectedCategory);
+    navigate(
+      `/booking?phone=${encodeURIComponent(phoneNumber)}&category=${encodeURIComponent(selectedCategory)}`,
+      {
+        state: { phone: phoneNumber, category: selectedCategory },
+      }
+    );
   };
 
   return (
