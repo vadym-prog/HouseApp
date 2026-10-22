@@ -71,7 +71,6 @@ HomeApp/
 ├── index.html                    # Головний HTML-файл зі шрифтами Google
 ├── package.json                  # Скрипти та залежності проєкту
 ├── postcss.config.js             # Конфігурація PostCSS
-├── tailwind.config.js            # Інтеграція токенів DESIGN.md у Tailwind
 ├── tsconfig.app.json             # Налаштування TS для вихідного коду
 ├── tsconfig.json                 # Головний TS config
 └── vite.config.ts                # Конфігурація збирача Vite
