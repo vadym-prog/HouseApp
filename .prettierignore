@@ -1,0 +1,9 @@
+dist
+node_modules
+.husky
+coverage
+cypress/videos
+cypress/screenshots
+designs
+docs
+HouseApp
