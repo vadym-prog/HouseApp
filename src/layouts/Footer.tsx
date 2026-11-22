@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Logo } from "../components/ui/Logo";
 import styles from "./Footer.module.css";
 
 export const Footer: React.FC = () => {
@@ -8,11 +9,7 @@ export const Footer: React.FC = () => {
       <div className={styles.inner}>
         <div className={styles.topRow}>
           <div className={styles.brand}>
-            <img
-              src="https://lh3.googleusercontent.com/aida/AEtjO1WIzBQkPNS1kbD22rUDUpG1rIhjc8k4UnCathTz-85RbcD_vpQlQBzmBrsuvKgGi4gi5KTlHZ7Ii8DYZ0P0NxhhqmrIaMBVo8aplY_nKLjuKyMhVPmjsBxQEHSp9FopAA8d1BjkRAsyOuaL2ZQWmqB0Z4ddPBzPLgL6l684iYDl8HvS4ls2db6x6SqEClLXBncFNbaFRDTaxAFUgvbVdBnXRpY-xpVSCmfT0UxVLvM2hXWay7VClVvDRJk"
-              alt="МайстерДім"
-              className={styles.logoImage}
-            />
+            <Logo size="sm" />
             <span className={styles.brandTitle}>МайстерДім</span>
             <span className={styles.copyright}>© 2026</span>
           </div>

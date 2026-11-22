@@ -1,11 +1,10 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Badge } from "../components/ui/Badge";
+import { Logo } from "../components/ui/Logo";
+import { UserAvatar } from "../components/ui/UserAvatar";
 import { useAuth } from "../features/auth/hooks/useAuth";
 import styles from "./Header.module.css";
-
-const DEFAULT_AVATAR =
-  "https://lh3.googleusercontent.com/aida/AEtjO1Xvsc_93oFqSnauAp5IVQNZ060MQM2fk7ENYui9h9Doqrms9Q1An_AyUnNX0QafrbPqs3xDSqOHbxhZkumc8EZlidbsxNBitNlvTQX45B5nelOhjI2EAFDQzMWtUMO-XsLjhimgdCEMoMR2EudWXzn8o89qqYMAXS_XWChKLqJrK57sibKH_TKMEd9j7p2KEitcWNexrWHyL-5xO7PYqqX11JnqaoWxaz679trS2V-jOx4YQJoRKk8q0mU";
 
 export const Header: React.FC = () => {
   const { user, isAuthenticated, logout, openAuthModal } = useAuth();
@@ -16,11 +15,7 @@ export const Header: React.FC = () => {
         {/* Brand & Logo */}
         <div className={styles.brand}>
           <Link to="/" className={styles.logoLink}>
-            <img
-              src="https://lh3.googleusercontent.com/aida/AEtjO1WIzBQkPNS1kbD22rUDUpG1rIhjc8k4UnCathTz-85RbcD_vpQlQBzmBrsuvKgGi4gi5KTlHZ7Ii8DYZ0P0NxhhqmrIaMBVo8aplY_nKLjuKyMhVPmjsBxQEHSp9FopAA8d1BjkRAsyOuaL2ZQWmqB0Z4ddPBzPLgL6l684iYDl8HvS4ls2db6x6SqEClLXBncFNbaFRDTaxAFUgvbVdBnXRpY-xpVSCmfT0UxVLvM2hXWay7VClVvDRJk"
-              alt="МайстерДім"
-              className={styles.logoImage}
-            />
+            <Logo size="sm" />
             <span className={styles.brandTitle}>МайстерДім</span>
           </Link>
           <Badge variant="pro">PRO</Badge>
@@ -73,14 +68,7 @@ export const Header: React.FC = () => {
           {isAuthenticated && user ? (
             <>
               <Link to="/auth" className={styles.userProfile} title="Особистий кабінет">
-                <div className={styles.avatarWrapper}>
-                  <img
-                    src={user.avatarUrl || DEFAULT_AVATAR}
-                    alt={user.name}
-                    className={styles.avatar}
-                  />
-                  <span className={styles.onlineIndicator} />
-                </div>
+                <UserAvatar src={user.avatarUrl} alt={user.name} size="sm" showOnline />
                 <div className={styles.userInfo}>
                   <span className={styles.userName}>{user.name}</span>
                   <span className={styles.userCity}>{user.city || "Ужгород"}</span>
@@ -113,9 +101,7 @@ export const Header: React.FC = () => {
                 <span>Увійти</span>
               </button>
               <Link to="/auth" className={styles.userProfile} title="Особистий кабінет">
-                <div className={styles.avatarWrapper}>
-                  <img src={DEFAULT_AVATAR} alt="Профіль" className={styles.avatar} />
-                </div>
+                <UserAvatar size="sm" showOnline={false} alt="Особистий кабінет" />
               </Link>
             </>
           )}

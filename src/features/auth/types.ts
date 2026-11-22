@@ -10,6 +10,8 @@ export interface User {
   avatarUrl?: string;
   specialization?: string;
   experience?: string;
+  addresses?: string[];
+  createdAt?: string;
 }
 
 export interface LoginCredentials {
@@ -28,6 +30,7 @@ export interface RegisterData {
   specialization?: string;
   experience?: string;
   hasTools?: boolean;
+  addresses?: string[];
 }
 
 export interface AuthResponse {
@@ -44,6 +47,7 @@ export interface AuthContextType {
   error: string | null;
   login: (credentials: LoginCredentials) => Promise<boolean>;
   register: (data: RegisterData) => Promise<boolean>;
+  updateProfile: (data: Partial<User>) => Promise<boolean>;
   logout: () => void;
   clearError: () => void;
   isAuthModalOpen: boolean;

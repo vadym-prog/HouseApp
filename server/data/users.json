@@ -1,0 +1,19 @@
+[
+  {
+    "id": "usr_demo_1001",
+    "name": "Олександр Коваль",
+    "email": "client@masterdim.ua",
+    "phone": "+380 67 123 45 67",
+    "passwordHash": "$2a$10$wN9aB3VvG79F.0pG2O9luef1u8O0K9E2jRzE7m3h6N8fK4w4kI0kG",
+    "role": "client",
+    "city": "Київ",
+    "specialization": null,
+    "experience": null,
+    "addresses": [
+      "вул. Садова, 14",
+      "вул. Хрещатик, 24, кв. 12"
+    ],
+    "avatarUrl": null,
+    "createdAt": "2026-04-10T10:00:00.000Z"
+  }
+]

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   API_BASE_URL,
   getToken,
@@ -6,6 +6,7 @@ import {
   getUser,
   setUser,
   clearAuth,
+  getAuthHeaders,
   STORAGE_KEYS,
 } from "../../../config/api";
 import { AuthContext } from "./authContextDef";
@@ -24,15 +25,17 @@ const getStoredRegisteredUsers = (): User[] => {
 const saveStoredRegisteredUser = (user: User): void => {
   try {
     const users = getStoredRegisteredUsers();
-    users.push(user);
+    const index = users.findIndex((u) => u.id === user.id || u.email === user.email);
+    if (index >= 0) {
+      users[index] = user;
+    } else {
+      users.push(user);
+    }
     localStorage.setItem(STORAGE_KEYS.REGISTERED_USERS, JSON.stringify(users));
   } catch {
     console.warn("Failed to save registered user to localStorage");
   }
 };
-
-const DEFAULT_AVATAR =
-  "https://lh3.googleusercontent.com/aida/AEtjO1Xvsc_93oFqSnauAp5IVQNZ060MQM2fk7ENYui9h9Doqrms9Q1An_AyUnNX0QafrbPqs3xDSqOHbxhZkumc8EZlidbsxNBitNlvTQX45B5nelOhjI2EAFDQzMWtUMO-XsLjhimgdCEMoMR2EudWXzn8o89qqYMAXS_XWChKLqJrK57sibKH_TKMEd9j7p2KEitcWNexrWHyL-5xO7PYqqX11JnqaoWxaz679trS2V-jOx4YQJoRKk8q0mU";
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Initialize state lazily from localStorage to avoid cascading render effects
@@ -44,6 +47,36 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Modal control
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
   const [authModalMode, setAuthModalMode] = useState<"login" | "register">("login");
+
+  // Verify token with backend /api/auth/me on mount if token exists
+  useEffect(() => {
+    const token = getToken();
+    if (!token) return;
+
+    let isMounted = true;
+    const checkAuth = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/auth/me`, {
+          headers: getAuthHeaders(),
+        });
+        if (response.ok && isMounted) {
+          const data = await response.json();
+          if (data?.user) {
+            setCurrentUser(data.user);
+            setUser(data.user);
+          }
+        }
+      } catch {
+        // Silently fall back to cached localStorage user if backend is offline
+      }
+    };
+
+    checkAuth();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const openAuthModal = useCallback((mode: "login" | "register" = "login") => {
     setAuthModalMode(mode);
@@ -114,16 +147,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         id: `usr_${Date.now()}`,
         name: credentials.emailOrPhone.includes("@")
           ? credentials.emailOrPhone.split("@")[0]
-          : "Олександр Пловайко",
+          : "Олександр Коваль",
         email: credentials.emailOrPhone.includes("@")
           ? credentials.emailOrPhone
           : "user@masterdim.ua",
         phone: credentials.emailOrPhone.includes("@")
-          ? "+380 50 123 45 67"
+          ? "+380 67 123 45 67"
           : credentials.emailOrPhone,
         role: credentials.role || "client",
-        city: "Ужгород",
-        avatarUrl: DEFAULT_AVATAR,
+        city: "Київ",
+        addresses: ["вул. Садова, 14"],
       };
 
       const mockToken = `mock_token_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
@@ -186,7 +219,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setIsAuthModalOpen(false);
       return true;
     } catch (err: unknown) {
-      // Fallback for offline mode / before backend lab
       console.info(
         "Backend /api/auth/register unavailable. Registering user locally in localStorage.",
         err
@@ -198,10 +230,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         email: data.email.trim().toLowerCase(),
         phone: data.phone.trim(),
         role: data.role,
-        city: data.city || "Ужгород",
-        avatarUrl: DEFAULT_AVATAR,
+        city: data.city || "Київ",
         specialization: data.specialization,
         experience: data.experience,
+        addresses: data.addresses || ["вул. Садова, 14"],
       };
 
       const mockToken = `mock_token_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
@@ -218,6 +250,53 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
+  const updateProfile = useCallback(
+    async (data: Partial<User>): Promise<boolean> => {
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/users/profile`, {
+          method: "PUT",
+          headers: getAuthHeaders(),
+          body: JSON.stringify(data),
+        });
+
+        if (!response.ok) {
+          const errData = await response.json().catch(() => ({}));
+          throw new Error(errData.message || `Помилка оновлення: ${response.status}`);
+        }
+
+        const resData = await response.json();
+        const updatedUser: User = resData.user || resData;
+        setCurrentUser(updatedUser);
+        setUser(updatedUser);
+        saveStoredRegisteredUser(updatedUser);
+        return true;
+      } catch (err: unknown) {
+        console.info(
+          "Backend /api/users/profile unavailable. Updating profile locally in localStorage.",
+          err
+        );
+
+        if (currentUser) {
+          const updatedUser: User = {
+            ...currentUser,
+            ...data,
+          };
+          setCurrentUser(updatedUser);
+          setUser(updatedUser);
+          saveStoredRegisteredUser(updatedUser);
+          return true;
+        }
+        return false;
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [currentUser]
+  );
+
   const logout = useCallback(() => {
     clearAuth();
     setCurrentToken(null);
@@ -233,6 +312,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     error,
     login,
     register,
+    updateProfile,
     logout,
     clearError,
     isAuthModalOpen,
