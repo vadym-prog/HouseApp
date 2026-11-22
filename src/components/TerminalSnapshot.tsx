@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "./TerminalSnapshot.module.css";
 
 export interface TerminalSnapshotProps {
   title?: string;
@@ -14,73 +15,75 @@ export const TerminalSnapshot: React.FC<TerminalSnapshotProps> = ({
   command,
   outputLines,
 }) => {
-  const getColor = (type?: string) => {
+  const getColorClass = (type?: string) => {
     switch (type) {
       case "command":
-        return "text-white font-bold";
+        return styles.textCommand;
       case "success":
-        return "text-emerald-400 font-semibold";
+        return styles.textSuccess;
       case "info":
-        return "text-cyan-400";
+        return styles.textInfo;
       case "warning":
-        return "text-amber-400";
+        return styles.textWarning;
       case "dim":
-        return "text-neutral-500";
+        return styles.textDim;
       case "highlight":
-        return "text-purple-400 font-semibold";
+        return styles.textHighlight;
       default:
-        return "text-neutral-200";
+        return styles.textDefault;
     }
   };
 
   return (
-    <div className="p-6 bg-neutral-950 min-h-screen flex items-center justify-center font-mono">
-      <div className="w-[880px] rounded-xl overflow-hidden shadow-2xl border border-neutral-800 bg-[#0d1117]">
+    <div className={styles.container}>
+      <div className={styles.window}>
         {/* Window Title Bar */}
-        <div className="h-10 bg-[#161b22] border-b border-neutral-800 flex items-center justify-between px-4 select-none">
-          <div className="flex items-center gap-2">
-            <span className="w-3 h-3 rounded-full bg-[#ff5f56] inline-block shadow-sm"></span>
-            <span className="w-3 h-3 rounded-full bg-[#ffbd2e] inline-block shadow-sm"></span>
-            <span className="w-3 h-3 rounded-full bg-[#27c93f] inline-block shadow-sm"></span>
+        <div className={styles.titleBar}>
+          <div className={styles.trafficLights}>
+            <span className={styles.dotRed} />
+            <span className={styles.dotYellow} />
+            <span className={styles.dotGreen} />
           </div>
-          <span className="text-xs text-neutral-400 font-sans font-medium">{title}</span>
-          <div className="w-12"></div>
+          <span className={styles.titleText}>{title}</span>
+          <div className={styles.titleSpacer} />
         </div>
 
         {/* Terminal Body */}
-        <div className="p-5 text-[13px] leading-relaxed select-text space-y-1 bg-[#0d1117] text-neutral-200">
+        <div className={styles.terminalBody}>
           {/* Prompt line */}
-          <div className="flex items-center gap-2 pb-1 border-b border-neutral-800/80 mb-3 text-xs">
-            <span className="text-emerald-400 font-bold">student@DESKTOP</span>
-            <span className="text-neutral-500">:</span>
-            <span className="text-blue-400 font-semibold">~/Downloads/HomeApp</span>
-            <span className="text-neutral-500">(</span>
-            <span className="text-purple-400 font-medium">feature/lab3-project-skeleton</span>
-            <span className="text-neutral-500">)</span>
+          <div className={styles.promptMetaLine}>
+            <span className={styles.userHost}>student@DESKTOP</span>
+            <span className={styles.pathSep}>:</span>
+            <span className={styles.cwd}>~/Downloads/HomeApp</span>
+            <span className={styles.pathSep}>(</span>
+            <span className={styles.branch}>feature/lab4-frontend-layout</span>
+            <span className={styles.pathSep}>)</span>
           </div>
 
-          <div className="flex items-center gap-2 text-white font-bold pb-2">
-            <span className="text-emerald-400">$</span>
+          <div className={styles.commandLine}>
+            <span className={styles.promptSymbol}>$</span>
             <span>{command}</span>
           </div>
 
           {/* Output lines */}
           {outputLines.map((line, idx) => (
-            <div key={idx} className={`${getColor(line.type)} whitespace-pre-wrap font-mono`}>
+            <div key={idx} className={`${getColorClass(line.type)} ${styles.outputLine}`.trim()}>
               {line.text}
             </div>
           ))}
 
           {/* New prompt line showing ready state */}
-          <div className="flex items-center gap-2 pt-3 text-xs opacity-75">
-            <span className="text-emerald-400 font-bold">student@DESKTOP</span>
-            <span className="text-neutral-500">:</span>
-            <span className="text-blue-400 font-semibold">~/Downloads/HomeApp</span>
-            <span className="text-emerald-400">$</span>
-            <span className="w-2 h-4 bg-neutral-400 animate-pulse inline-block"></span>
+          <div className={styles.readyLine}>
+            <span className={styles.userHost}>student@DESKTOP</span>
+            <span className={styles.pathSep}>:</span>
+            <span className={styles.cwd}>~/Downloads/HomeApp</span>
+            <span className={styles.promptSymbol}>$</span>
+            <span className={styles.cursorBlock} />
           </div>
         </div>
       </div>
     </div>
   );
 };
+
+export default TerminalSnapshot;

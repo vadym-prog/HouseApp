@@ -1,124 +1,130 @@
 # МайстерДім — Сервіс перевірених майстрів
-> Лабораторна робота №3: Каркас (структура) проєкту
+> Повноцінний Full-Stack веб-застосунок (React 19 + TypeScript + Vite + Node.js / Express REST API)
 
-Веб-застосунок для замовлення побутових послуг, сантехнічних робіт, збирання меблів та догляду за ділянкою за дизайном «Neo-Craft Digital Atelier».
+Веб-застосунок для замовлення побутових послуг, сантехнічних робіт, електрики, збирання меблів та догляду за ділянкою за дизайном «Neo-Craft Digital Atelier».
 
 ---
 
-## Стек технологій
+## 🛠 Стек технологій
+
+### Фронтенд (Client)
 - **Фреймворк**: [React 19](https://react.dev/) + [Vite](https://vitejs.dev/)
 - **Мова**: [TypeScript](https://www.typescriptlang.org/)
-- **Стилізація**: [Tailwind CSS v3](https://tailwindcss.com/) з дизайн-токенами з `DESIGN.md` (Plus Jakarta Sans, JetBrains Mono, кольорова палітра atelier)
-- **Контроль якості коду**: [ESLint](https://eslint.org/) (Flat config + react-hooks + prettier-compat) та [Prettier](https://prettier.io/)
-- **Автоматизація Git-хуків**: [Husky](https://typicode.github.io/husky/) + [lint-staged](https://github.com/lint-staged/lint-staged) (автоматичний lint та format перед комітом)
-- **Тестування**: [Cypress 16](https://docs.cypress.io/)
-  - **Component Testing**: тестування React-компонентів у ізольованому Vite середовищі (`Button.cy.tsx`, `ServiceCard.cy.tsx`)
-  - **E2E Testing**: наскрізне тестування головного сценарію (`cypress/e2e/home.cy.ts`)
+- **Маршрутизація**: [React Router v7](https://reactrouter.com/) (динамічні маршрути `/booking/:serviceId`, 404 сторінка, захищений перехід)
+- **Стилізація**: Чисті CSS Modules з підтримкою дизайн-токенів з `DESIGN.md` (Plus Jakarta Sans, JetBrains Mono, кольорова палітра atelier)
+- **Кастомні хуки та бізнес-логіка (ЛР №6)**:
+  - `useServices` — завантаження, живий пошук, фільтрація за категорією з AbortController
+  - `useCreateBooking` — валідація та створення заявок на виклик майстра
+  - `useAuth` та `AuthContext` — авторизація, реєстрація, сесії користувачів та швидке модальне вікно `AuthModal`
+- **Контроль якості коду**: ESLint (Flat config + react-hooks + prettier-compat) та Prettier
+- **Тестування**: Cypress 16 (Component & E2E Testing)
+
+### Бекенд (Server — ЛР №7)
+- **Платформа**: [Node.js](https://nodejs.org/) (ES Modules)
+- **Серверний фреймворк**: [Express](https://expressjs.com/) (порт 5000)
+- **Автентифікація та безпека**: JSON Web Tokens ([jsonwebtoken](https://github.com/auth0/node-jsonwebtoken)) + хешування паролів ([bcryptjs](https://github.com/dcodeIO/bcrypt.js))
+- **CORS**: Забезпечення безпечних запитів із клієнта на `http://localhost:5173`
+- **Сховище даних**: Персистентне файлове JSON-сховище у `server/data/` (`services.json`, `users.json`, `bookings.json`)
 
 ---
 
-## Структура проєкту (Feature-based Architecture)
+## 📂 Структура проєкту (Feature-based Architecture)
 
 ```
 HomeApp/
-├── .husky/                       # Git-хуки (pre-commit: npx lint-staged)
-├── cypress/                      # Налаштування та E2E тести Cypress
-│   ├── e2e/
-│   │   └── home.cy.ts            # E2E тест завантаження головної сторінки та форми
-│   ├── support/
-│   │   ├── commands.ts           # Користувацькі команди
-│   │   ├── component.ts          # Монтування React-компонентів у Cypress
-│   │   ├── component-index.html  # Шаблон для component runner
-│   │   └── e2e.ts                # E2E конфігурація
-│   └── tsconfig.json             # Типізація тестів Cypress
-├── designs/                      # Початкові дизайн-макети та специфікації
-│   ├── DESIGN.md                 # Специфікація кольорів, шрифтів, відступів
-│   ├── code.html                 # Еталонна HTML-верстка сервісу «МайстерДім»
-│   └── screen.png                # Скріншот еталонного інтерфейсу
+├── server/                       # Серверна частина (Node.js / Express REST API)
+│   ├── data/                     # Файлове JSON-сховище
+│   │   ├── services.json         # Каталог послуг
+│   │   ├── users.json            # Облікові записи користувачів
+│   │   └── bookings.json         # Історія замовлень і квитанцій
+│   ├── middleware/
+│   │   └── auth.js               # JWT-middleware перевірки токена
+│   ├── routes/
+│   │   ├── services.js           # Маршрути каталогу послуг
+│   │   ├── auth.js               # Маршрути реєстрації, входу та /me
+│   │   ├── users.js              # Маршрути профілю користувача
+│   │   └── bookings.js           # Маршрути заявок бронювання
+│   ├── utils/
+│   │   └── storage.js            # Утиліта безпечного читання/запису JSON
+│   ├── index.js                  # Головний файл сервера
+│   └── package.json              # Залежності бекенду
 ├── src/
-│   ├── components/
-│   │   └── ui/                   # Загальні атомарні UI-компоненти
-│   │       ├── Badge.tsx         # Статусні бейджі та пігулки
-│   │       ├── Button.tsx        # Базова кнопка дизайн-системи
-│   │       ├── Button.cy.tsx     # Компонентний юніт-тест для Button
-│   │       └── PhoneInput.tsx    # Поле введення з префіксом +380
-│   ├── features/                 # Модульна бізнес-логіка (Feature-Sliced)
-│   │   ├── booking/              # Фіча швидкого бронювання
-│   │   │   └── components/
-│   │   │       └── QuickBookingWidget.tsx  # Форма виклику майстра
-│   │   └── services/             # Фіча каталогу популярних послуг
-│   │       ├── components/
-│   │       │   ├── ServiceCard.tsx         # Картка окремої послуги
-│   │       │   ├── ServiceCard.cy.tsx      # Компонентний тест картки
-│   │       │   └── ServiceList.tsx         # Сітка каталогу послуг
-│   │       ├── data/
-│   │       │   └── mockServices.ts         # Мокові дані послуг
-│   │       └── types.ts                    # Інтерфейси та типи послуг
-│   ├── layouts/                  # Лейаути та структурні блоки сторінки
-│   │   ├── Footer.tsx            # Підвал сайту з контактами
-│   │   ├── Header.tsx            # Навігаційна шапка зі статусом майстрів
-│   │   └── MainLayout.tsx        # Загальна обгортка екрана
-│   ├── pages/                    # Сторінки застосунку
-│   │   └── HomePage.tsx          # Збірка головного екрана за дизайном
-│   ├── App.tsx                   # Кореневий компонент застосунку
-│   ├── index.css                 # Підключення Tailwind CSS та сітки Figma
-│   └── main.tsx                  # Вхідна точка React DOM
-├── .gitignore                    # Ігнорування артефактів збірки та залежностей
-├── .prettierignore               # Виключення для Prettier
-├── .prettierrc                   # Конфігурація правил форматування коду
-├── cypress.config.ts             # Головний конфіг Cypress (E2E + Component)
-├── eslint.config.js              # Конфігурація ESLint із підтримкою Prettier
-├── index.html                    # Головний HTML-файл зі шрифтами Google
-├── package.json                  # Скрипти та залежності проєкту
-├── postcss.config.js             # Конфігурація PostCSS
-├── tailwind.config.js            # Інтеграція токенів DESIGN.md у Tailwind
-├── tsconfig.app.json             # Налаштування TS для вихідного коду
-├── tsconfig.json                 # Головний TS config
-└── vite.config.ts                # Конфігурація збирача Vite
+│   ├── components/               # Загальні UI-компоненти
+│   │   ├── ui/
+│   │   │   ├── Logo.tsx          # Векторний SVG-логотип «МайстерДім»
+│   │   │   ├── UserAvatar.tsx    # Аватар користувача з SVG-заглушкою
+│   │   │   ├── Button.tsx        # Кнопки інтерфейсу
+│   │   │   ├── Input.tsx         # Поля введення
+│   │   │   ├── PhoneInput.tsx    # Поле введення телефону з +380
+│   │   │   ├── Select.tsx        # Селекти
+│   │   │   └── Badge.tsx         # Бейджі та мітки
+│   ├── config/
+│   │   └── api.ts                # Базовий URL API та утиліти localStorage
+│   ├── features/                 # Модульна бізнес-логіка
+│   │   ├── auth/                 # Авторизація, контекст та модальне вікно
+│   │   ├── booking/              # Створення заявок та віджети
+│   │   └── services/             # Каталог послуг, пошук, фільтри
+│   ├── layouts/                  # Шапка (Header), Підвал (Footer), MainLayout
+│   ├── pages/                    # Сторінки (Home, Services, Booking, Auth, 404)
+│   ├── App.tsx                   # Кореневий компонент та маршрути
+│   └── main.tsx                  # Вхідна точка React
+├── cypress/                      # E2E та компонентні тести
+└── package.json                  # Скрипти збірки та запуску
 ```
 
 ---
 
-## Команди запуску
+## 📡 Перелік REST API маршрутів (Бекенд)
 
-### 1. Встановлення залежностей:
+| Метод | Шлях | Опис | Авторизація |
+|-------|------|------|-------------|
+| `GET` | `/api/services` | Отримання каталогу послуг (фільтри `?category=...&search=...`) | Публічний |
+| `GET` | `/api/services/:id` | Отримання послуги за унікальним ID | Публічний |
+| `POST`| `/api/auth/register` | Реєстрація нового користувача (хешування пароля bcrypt, повернення JWT) | Публічний |
+| `POST`| `/api/auth/login` | Вхід користувача за email/телефоном та паролем | Публічний |
+| `GET` | `/api/auth/me` | Отримання даних поточного користувача | JWT Bearer |
+| `PUT` | `/api/users/profile` | Оновлення профілю (ім'я, телефон, місто, аватар, адреси) | JWT Bearer |
+| `GET` | `/api/bookings` | Отримання списку замовлень (користувача або всіх) | Опціональний JWT |
+| `POST`| `/api/bookings` | Оформлення нової заявки на виклик майстра | Опціональний JWT |
+
+---
+
+## 🚀 Команди запуску проєкту
+
+### 1. Встановлення всіх залежностей:
 ```bash
+# Залежності фронтенду
 npm install
+
+# Залежності бекенду
+npm --prefix server install
 ```
 
-### 2. Запуск локального сервера розробки:
+### 2. Запуск бекенд-сервера (порт 5000):
+```bash
+npm run server
+```
+Сервер запуститься за адресою: `http://localhost:5000/api`
+
+### 3. Запуск фронтенд-клієнта (порт 5173):
+У новому терміналі:
 ```bash
 npm run dev
 ```
-Додаток доступний за адресою: `http://localhost:5173/`
+Клієнт доступний за адресою: `http://localhost:5173/`
 
-### 3. Перевірка якості коду (Лінтинг):
+### 4. Перевірка якості коду (Лінтинг та форматування):
 ```bash
 npm run lint
-```
-
-### 4. Автоматичне форматування коду:
-```bash
 npm run format
 ```
 
-### 5. Складання продакшн-білду:
+### 5. Складання продакшн-білду фронтенду:
 ```bash
 npm run build
 ```
 
-### 6. Запуск компонентних тестів Cypress (Component Testing):
+### 6. Запуск тестів Cypress:
 ```bash
-npm run test:component
-```
-
-### 7. Запуск наскрізних тестів Cypress (E2E Testing):
-```bash
-# Переконайтеся, що сервер запущено (npm run dev), або:
 npm run test:e2e
-```
-
-### 8. Інтерактивний інтерфейс Cypress:
-```bash
-npm run cypress:open
 ```

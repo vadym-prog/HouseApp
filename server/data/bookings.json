@@ -1,0 +1,40 @@
+[
+  {
+    "id": "bk_20260428_01",
+    "userId": "usr_demo_1001",
+    "status": "pending",
+    "createdAt": "2026-04-28T09:30:00.000Z",
+    "data": {
+      "clientName": "Олександр Коваль",
+      "phone": "+380 67 123 45 67",
+      "serviceId": "lawn-mowing",
+      "serviceName": "Покіс газону та аерація",
+      "category": "lawn",
+      "date": "2026-04-28",
+      "timeSlot": "09:00 - 12:00",
+      "address": "вул. Садова, 14",
+      "description": "850 ₴",
+      "contactMethod": "phone"
+    },
+    "message": "Заявку прийнято"
+  },
+  {
+    "id": "bk_20260412_02",
+    "userId": "usr_demo_1001",
+    "status": "completed",
+    "createdAt": "2026-04-12T14:15:00.000Z",
+    "data": {
+      "clientName": "Олександр Коваль",
+      "phone": "+380 67 123 45 67",
+      "serviceId": "tree-trimming",
+      "serviceName": "Обрізка дерев та формування крон",
+      "category": "garden",
+      "date": "2026-04-12",
+      "timeSlot": "12:00 - 15:00",
+      "address": "вул. Садова, 14",
+      "description": "550 ₴",
+      "contactMethod": "phone"
+    },
+    "message": "Роботу успішно виконано"
+  }
+]

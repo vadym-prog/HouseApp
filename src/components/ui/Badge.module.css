@@ -1,0 +1,91 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1-5);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+}
+
+.neutral {
+  background-color: var(--color-neutral-100);
+  color: var(--color-neutral-800);
+}
+
+.emerald {
+  background-color: var(--color-accent-emerald-light);
+  color: var(--color-accent-emerald-dark);
+}
+
+.violet {
+  background-color: var(--color-accent-violet-light);
+  color: var(--color-accent-violet);
+}
+
+.amber {
+  background-color: var(--color-accent-amber-light);
+  color: var(--color-accent-amber);
+}
+
+.pro {
+  background-color: var(--color-neutral-900);
+  color: var(--color-white);
+  font-family: var(--font-family-mono);
+  font-size: 0.65rem;
+  padding: 2px var(--space-2);
+}
+
+.primary {
+  background-color: var(--color-accent-blue-light);
+  color: var(--color-accent-blue);
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.dotNeutral {
+  background-color: var(--color-neutral-500);
+}
+
+.dotEmerald {
+  background-color: var(--color-accent-emerald);
+}
+
+.dotViolet {
+  background-color: var(--color-accent-violet);
+}
+
+.dotAmber {
+  background-color: var(--color-accent-amber);
+}
+
+.dotPro {
+  background-color: var(--color-white);
+}
+
+.dotPrimary {
+  background-color: var(--color-accent-blue);
+}
+
+.pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
