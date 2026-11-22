@@ -1,9 +1,15 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Badge } from "../components/ui/Badge";
+import { useAuth } from "../features/auth/hooks/useAuth";
 import styles from "./Header.module.css";
 
+const DEFAULT_AVATAR =
+  "https://lh3.googleusercontent.com/aida/AEtjO1Xvsc_93oFqSnauAp5IVQNZ060MQM2fk7ENYui9h9Doqrms9Q1An_AyUnNX0QafrbPqs3xDSqOHbxhZkumc8EZlidbsxNBitNlvTQX45B5nelOhjI2EAFDQzMWtUMO-XsLjhimgdCEMoMR2EudWXzn8o89qqYMAXS_XWChKLqJrK57sibKH_TKMEd9j7p2KEitcWNexrWHyL-5xO7PYqqX11JnqaoWxaz679trS2V-jOx4YQJoRKk8q0mU";
+
 export const Header: React.FC = () => {
+  const { user, isAuthenticated, logout, openAuthModal } = useAuth();
+
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
@@ -64,20 +70,55 @@ export const Header: React.FC = () => {
             <span>0 800 33-40-50</span>
           </a>
 
-          <Link to="/auth" className={styles.userProfile} title="Особистий кабінет">
-            <div className={styles.avatarWrapper}>
-              <img
-                src="https://lh3.googleusercontent.com/aida/AEtjO1Xvsc_93oFqSnauAp5IVQNZ060MQM2fk7ENYui9h9Doqrms9Q1An_AyUnNX0QafrbPqs3xDSqOHbxhZkumc8EZlidbsxNBitNlvTQX45B5nelOhjI2EAFDQzMWtUMO-XsLjhimgdCEMoMR2EudWXzn8o89qqYMAXS_XWChKLqJrK57sibKH_TKMEd9j7p2KEitcWNexrWHyL-5xO7PYqqX11JnqaoWxaz679trS2V-jOx4YQJoRKk8q0mU"
-                alt="Профіль"
-                className={styles.avatar}
-              />
-              <span className={styles.onlineIndicator} />
-            </div>
-            <div className={styles.userInfo}>
-              <span className={styles.userName}>Олександр</span>
-              <span className={styles.userCity}>Київ</span>
-            </div>
-          </Link>
+          {isAuthenticated && user ? (
+            <>
+              <Link to="/auth" className={styles.userProfile} title="Особистий кабінет">
+                <div className={styles.avatarWrapper}>
+                  <img
+                    src={user.avatarUrl || DEFAULT_AVATAR}
+                    alt={user.name}
+                    className={styles.avatar}
+                  />
+                  <span className={styles.onlineIndicator} />
+                </div>
+                <div className={styles.userInfo}>
+                  <span className={styles.userName}>{user.name}</span>
+                  <span className={styles.userCity}>{user.city || "Ужгород"}</span>
+                </div>
+              </Link>
+              <button
+                type="button"
+                onClick={logout}
+                className={styles.logoutBtn}
+                title="Вийти з акаунту"
+                aria-label="Вийти"
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: "16px" }}>
+                  logout
+                </span>
+                <span className={styles.logoutText}>Вийти</span>
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                type="button"
+                onClick={() => openAuthModal("login")}
+                className={styles.loginBtn}
+                id="header-login-btn"
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: "16px" }}>
+                  login
+                </span>
+                <span>Увійти</span>
+              </button>
+              <Link to="/auth" className={styles.userProfile} title="Особистий кабінет">
+                <div className={styles.avatarWrapper}>
+                  <img src={DEFAULT_AVATAR} alt="Профіль" className={styles.avatar} />
+                </div>
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </header>

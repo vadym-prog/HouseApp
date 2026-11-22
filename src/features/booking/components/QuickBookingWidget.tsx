@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../../components/ui/Button";
 import { PhoneInput } from "../../../components/ui/PhoneInput";
+import { useCreateBooking } from "../hooks/useCreateBooking";
 import styles from "./QuickBookingWidget.module.css";
 
 const CATEGORIES = [
@@ -20,17 +21,31 @@ export const QuickBookingWidget: React.FC<QuickBookingWidgetProps> = ({ onSucces
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState("");
+  const [validationError, setValidationError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Business logic hook for booking creation
+  const { createBooking, isLoading, error: apiError } = useCreateBooking();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (phoneNumber.trim().length < 9) {
-      setError("Введіть коректний номер телефону");
+      setValidationError("Введіть коректний номер телефону");
       return;
     }
-    setError("");
+
+    setValidationError("");
     setSubmitted(true);
+
+    // Call business logic hook
+    await createBooking({
+      phone: phoneNumber,
+      category: selectedCategory,
+      description: `Швидка заявка: категорія ${selectedCategory}`,
+    });
+
     onSuccess?.(phoneNumber, selectedCategory);
+
+    // Navigate to full booking flow with prefilled parameters
     navigate(
       `/booking?phone=${encodeURIComponent(phoneNumber)}&category=${encodeURIComponent(selectedCategory)}`,
       {
@@ -38,6 +53,8 @@ export const QuickBookingWidget: React.FC<QuickBookingWidgetProps> = ({ onSucces
       }
     );
   };
+
+  const displayError = validationError || apiError || "";
 
   return (
     <div data-testid="quick-booking-widget" className={styles.widget}>
@@ -65,15 +82,21 @@ export const QuickBookingWidget: React.FC<QuickBookingWidgetProps> = ({ onSucces
             value={phoneNumber}
             onChange={(e) => {
               setPhoneNumber(e.target.value);
-              if (error) setError("");
+              if (validationError) setValidationError("");
             }}
-            error={error}
+            error={displayError}
             required
             aria-label="Номер телефону"
           />
         </div>
-        <Button type="submit" size="lg" icon="arrow_forward" id="quick-submit-btn">
-          Викликати майстра
+        <Button
+          type="submit"
+          size="lg"
+          icon={isLoading ? undefined : "arrow_forward"}
+          id="quick-submit-btn"
+          disabled={isLoading}
+        >
+          {isLoading ? "Відправка..." : "Викликати майстра"}
         </Button>
       </form>
 

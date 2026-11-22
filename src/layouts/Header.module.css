@@ -159,6 +159,47 @@
   color: var(--color-neutral-500);
 }
 
+.loginBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1-5) var(--space-3-5);
+  background-color: var(--color-neutral-900);
+  color: var(--color-white);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.loginBtn:hover {
+  background-color: var(--color-neutral-800);
+  transform: translateY(-1px);
+}
+
+.logoutBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1-5) var(--space-2-5);
+  background-color: var(--color-neutral-100);
+  color: var(--color-neutral-700);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  border: 1px solid var(--border-default);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.logoutBtn:hover {
+  background-color: #fee2e2;
+  color: #dc2626;
+  border-color: #fca5a5;
+}
+
 @media (max-width: 900px) {
   .nav {
     display: none;
@@ -170,6 +211,9 @@
     display: none;
   }
   .userInfo {
+    display: none;
+  }
+  .logoutText {
     display: none;
   }
 }

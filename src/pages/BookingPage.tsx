@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useParams, useSearchParams, useLocation, useNavigate, Link } from "react-router-dom";
 import { MainLayout } from "../layouts/MainLayout";
 import { MOCK_SERVICES } from "../features/services/data/mockServices";
+import { useServices } from "../features/services/hooks/useServices";
+import { useCreateBooking } from "../features/booking/hooks/useCreateBooking";
 import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
 import { Select } from "../components/ui/Select";
@@ -68,12 +70,18 @@ export const BookingPage: React.FC = () => {
   const [contactMethod, setContactMethod] = useState<"phone" | "telegram" | "viber">("phone");
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const currentService = MOCK_SERVICES.find((s) => s.id === selectedServiceId) || MOCK_SERVICES[0];
+  const { services } = useServices();
+  const availableServices = services.length > 0 ? services : MOCK_SERVICES;
 
-  const serviceOptions = MOCK_SERVICES.map((s) => ({
+  const currentService =
+    availableServices.find((s) => s.id === selectedServiceId) || availableServices[0];
+
+  const serviceOptions = availableServices.map((s) => ({
     value: s.id,
     label: `${s.title} (від ${s.price} ₴ / ${s.unit})`,
   }));
+
+  const { createBooking, isLoading, lastBooking, resetState } = useCreateBooking();
 
   const handleServiceChange = (newServiceId: string) => {
     setOverrideServiceId(newServiceId);
@@ -82,18 +90,32 @@ export const BookingPage: React.FC = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (phone.trim().length < 9) {
       setPhoneError("Вкажіть номер телефону для підтвердження виклику");
       return;
     }
     setPhoneError("");
+
+    await createBooking({
+      clientName,
+      phone,
+      serviceId: selectedServiceId,
+      serviceName: currentService.title,
+      date: selectedDate,
+      timeSlot: selectedTimeSlot,
+      address,
+      description: workDescription,
+      contactMethod,
+    });
+
     setIsSubmitted(true);
   };
 
   const handleReset = () => {
     setIsSubmitted(false);
+    resetState();
     setOverrideServiceId(null);
     setAddress("");
     setWorkDescription("");
@@ -136,6 +158,11 @@ export const BookingPage: React.FC = () => {
             </p>
 
             <div className={styles.orderReceipt}>
+              {lastBooking?.id && (
+                <div>
+                  <strong>Номер заявки:</strong> #{lastBooking.id}
+                </div>
+              )}
               <div>
                 <strong>Послуга:</strong> {currentService.title}
               </div>
@@ -350,8 +377,13 @@ export const BookingPage: React.FC = () => {
               </div>
 
               {/* Submit CTA */}
-              <Button type="submit" size="lg" icon="arrow_forward">
-                Підтвердити замовлення майстра
+              <Button
+                type="submit"
+                size="lg"
+                icon={isLoading ? undefined : "arrow_forward"}
+                disabled={isLoading}
+              >
+                {isLoading ? "Оформлення заявки..." : "Підтвердити замовлення майстра"}
               </Button>
             </form>
 

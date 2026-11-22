@@ -2,7 +2,7 @@ import React, { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { MainLayout } from "../layouts/MainLayout";
 import { ServiceCard } from "../features/services/components/ServiceCard";
-import { MOCK_SERVICES } from "../features/services/data/mockServices";
+import { useServices } from "../features/services/hooks/useServices";
 import type { ServiceItem } from "../features/services/types";
 import { Input } from "../components/ui/Input";
 import { Select } from "../components/ui/Select";
@@ -26,12 +26,19 @@ const SORT_OPTIONS = [
 
 export const ServicesPage: React.FC = () => {
   const navigate = useNavigate();
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("popular");
 
-  const filteredServices = useMemo(() => {
-    let result = [...MOCK_SERVICES];
+  const {
+    services,
+    searchQuery,
+    setSearchQuery,
+    selectedCategory,
+    setSelectedCategory,
+    isLoading,
+  } = useServices();
+
+  const sortedAndFilteredServices = useMemo(() => {
+    let result = [...services];
 
     // Category filter
     if (selectedCategory !== "all") {
@@ -63,7 +70,7 @@ export const ServicesPage: React.FC = () => {
     }
 
     return result;
-  }, [selectedCategory, searchQuery, sortBy]);
+  }, [services, selectedCategory, searchQuery, sortBy]);
 
   const handleOrder = (service: ServiceItem) => {
     navigate(`/booking/${service.id}`);
@@ -123,15 +130,19 @@ export const ServicesPage: React.FC = () => {
         {/* Meta summary */}
         <div className={styles.resultsMeta}>
           <span>
-            Знайдено послуг: <strong>{filteredServices.length}</strong>
+            Знайдено послуг: <strong>{sortedAndFilteredServices.length}</strong>
           </span>
           <span>Усі ціни вказані у гривнях (₴) з урахуванням виїзду</span>
         </div>
 
         {/* Services Grid */}
-        {filteredServices.length > 0 ? (
+        {isLoading && sortedAndFilteredServices.length === 0 ? (
+          <div className={styles.emptyState}>
+            <p>Завантаження каталогу послуг...</p>
+          </div>
+        ) : sortedAndFilteredServices.length > 0 ? (
           <div className={styles.grid}>
-            {filteredServices.map((service) => (
+            {sortedAndFilteredServices.map((service) => (
               <ServiceCard key={service.id} service={service} onOrder={handleOrder} />
             ))}
           </div>
